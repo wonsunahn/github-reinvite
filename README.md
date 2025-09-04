@@ -6,6 +6,8 @@ A modern web application that helps manage GitHub repository invitations by remo
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
 ![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green?style=for-the-badge)
 
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/ygilany)
+
 ## 🚀 Features
 
 - **Organization Management**: Support for multiple GitHub organizations with customizable assignment mappings
