@@ -403,7 +403,7 @@ export default function Page() {
         fontSize: "0.9rem",
         lineHeight: "1.6"
       }}>
-        <p style={{ margin: "0", display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: "0.2em" }}>
+        <p style={{ margin: "0 0 0.5rem 0", display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: "0.2em" }}>
           <a href="https://github-reinvite.vercel.app/" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>GitHub Re-invite</a> © 2025 by <a href="https://yahyagilany.io" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>Yahya Gilany</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>CC BY-NC-SA 4.0</a>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "0.2em" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -416,6 +416,47 @@ export default function Page() {
             <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" style={{ maxWidth: "1em", maxHeight: "1em", display: "inline-block" }} />
           </span>
         </p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", flexWrap: "wrap" }}>
+          <a 
+            href="https://yahyagilany.io" 
+            style={{ 
+              color: "rgba(255, 255, 255, 0.9)", 
+              textDecoration: "none",
+              fontSize: "0.85rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.3em"
+            }}
+          >
+            🌐 Website
+          </a>
+          <a 
+            href="https://www.buymeacoffee.com/ygilany" 
+            style={{ 
+              color: "rgba(255, 255, 255, 0.9)", 
+              textDecoration: "none",
+              fontSize: "0.85rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.3em"
+            }}
+          >
+            ☕ Buy Me a Coffee
+          </a>
+          <a 
+            href="https://github.com/ygilany/github-reinvite" 
+            style={{ 
+              color: "rgba(255, 255, 255, 0.9)", 
+              textDecoration: "none",
+              fontSize: "0.85rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.3em"
+            }}
+          >
+            📁 Repository
+          </a>
+        </div>
       </footer>
     </div>
   );
