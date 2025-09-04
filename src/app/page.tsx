@@ -1,102 +1,354 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+
+interface Input {
+  owner: string;
+  repo: string;
+  username: string;
+  permission: "pull" | "triage" | "push" | "maintain" | "admin";
+}
+
+interface Invitation {
+  id: number;
+  invitee?: {
+    login?: string;
+  };
+}
+
+interface InviteResult {
+  status: number;
+  message: string;
+  invitationId?: number;
+}
+
+type Result = {
+  ok: boolean;
+  error?: string;
+  input?: Input;
+  foundInvitations?: Invitation[];
+  deletedInvitations?: { id: number }[];
+  invite?: InviteResult | null;
+  dryRun?: boolean;
+};
+
+export default function Page() {
+  const [owner, setOwner] = useState(process.env.NEXT_PUBLIC_DEFAULT_GITHUB_OWNER || "");
+  const [repo, setRepo] = useState("");
+  const [username, setUsername] = useState("");
+  const [permission, setPermission] = useState<"pull"|"triage"|"push"|"maintain"|"admin">("push");
+  const [dryRun, setDryRun] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<Result | null>(null);
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setResult(null);
+
+    try {
+      const res = await fetch("/api/reinvite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ owner, repo, username, permission, dryRun }),
+      });
+      const json = await res.json();
+      setResult(json);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Request failed";
+      setResult({ ok: false, error: errorMessage });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div style={{ 
+      minHeight: "100vh", 
+      background: "linear-gradient(135deg, #8B0000 0%, #000000 100%)",
+      padding: "2rem 1rem"
+    }}>
+      <main style={{ 
+        maxWidth: 680, 
+        margin: "0 auto", 
+        background: "white",
+        borderRadius: "16px",
+        boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+        padding: "3rem",
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      }}>
+        <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+          <h1 style={{ 
+            fontSize: "2.5rem", 
+            fontWeight: "700", 
+            color: "#1a1a1a", 
+            margin: "0 0 0.5rem 0",
+            background: "linear-gradient(135deg, #8B0000 0%, #000000 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text"
+          }}>
+            GitHub Re-invite Tool
+          </h1>
+          <p style={{ 
+            fontSize: "1.1rem", 
+            color: "#6b7280", 
+            margin: "0",
+            lineHeight: "1.6"
+          }}>
+            Remove any stale repo invitation and send a fresh one
+          </p>
         </div>
+
+        <form onSubmit={onSubmit} style={{ display: "grid", gap: "1.5rem" }}>
+          <div style={{ display: "grid", gap: "0.5rem" }}>
+            <label style={{ 
+              fontSize: "0.875rem", 
+              fontWeight: "600", 
+              color: "#374151",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em"
+            }}>
+              Owner / Organization
+            </label>
+            <input 
+              value={owner} 
+              onChange={e => setOwner(e.target.value)} 
+              placeholder="e.g. uc-itsc" 
+              required 
+              style={{
+                padding: "0.875rem 1rem",
+                border: "2px solid #e5e7eb",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                transition: "all 0.2s ease",
+                outline: "none"
+              }}
+              onFocus={(e) => e.target.style.borderColor = "#8B0000"}
+              onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
+            />
+          </div>
+
+          <div style={{ display: "grid", gap: "0.5rem" }}>
+            <label style={{ 
+              fontSize: "0.875rem", 
+              fontWeight: "600", 
+              color: "#374151",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em"
+            }}>
+              Repository
+            </label>
+            <input 
+              value={repo} 
+              onChange={e => setRepo(e.target.value)} 
+              placeholder="e.g. webdev-fall25-john-doe" 
+              required 
+              style={{
+                padding: "0.875rem 1rem",
+                border: "2px solid #e5e7eb",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                transition: "all 0.2s ease",
+                outline: "none"
+              }}
+              onFocus={(e) => e.target.style.borderColor = "#8B0000"}
+              onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
+            />
+          </div>
+
+          <div style={{ display: "grid", gap: "0.5rem" }}>
+            <label style={{ 
+              fontSize: "0.875rem", 
+              fontWeight: "600", 
+              color: "#374151",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em"
+            }}>
+              Username
+            </label>
+            <input 
+              value={username} 
+              onChange={e => setUsername(e.target.value)} 
+              placeholder="e.g. octocat" 
+              required 
+              style={{
+                padding: "0.875rem 1rem",
+                border: "2px solid #e5e7eb",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                transition: "all 0.2s ease",
+                outline: "none"
+              }}
+              onFocus={(e) => e.target.style.borderColor = "#8B0000"}
+              onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
+            />
+          </div>
+
+          <div style={{ display: "grid", gap: "0.5rem" }}>
+            <label style={{ 
+              fontSize: "0.875rem", 
+              fontWeight: "600", 
+              color: "#374151",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em"
+            }}>
+              Permission Level
+            </label>
+            <select 
+              value={permission} 
+              onChange={e => setPermission(e.target.value as "pull"|"triage"|"push"|"maintain"|"admin")}
+              style={{
+                padding: "0.875rem 1rem",
+                border: "2px solid #e5e7eb",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                transition: "all 0.2s ease",
+                outline: "none",
+                background: "white",
+                cursor: "pointer"
+              }}
+              onFocus={(e) => e.target.style.borderColor = "#8B0000"}
+              onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
+            >
+              <option value="pull">📖 Pull (Read)</option>
+              <option value="triage">🔍 Triage</option>
+              <option value="push">✏️ Push (Write)</option>
+              <option value="maintain">🔧 Maintain</option>
+              <option value="admin">👑 Admin</option>
+            </select>
+          </div>
+
+          <div style={{ 
+            display: "flex", 
+            gap: "0.75rem", 
+            alignItems: "center",
+            padding: "1rem",
+            background: "#f8fafc",
+            borderRadius: "8px",
+            border: "1px solid #e2e8f0"
+          }}>
+            <input 
+              type="checkbox" 
+              checked={dryRun} 
+              onChange={e => setDryRun(e.target.checked)}
+              style={{
+                width: "18px",
+                height: "18px",
+                accentColor: "#8B0000"
+              }}
+            />
+            <label style={{ 
+              fontSize: "0.95rem", 
+              color: "#4b5563",
+              cursor: "pointer",
+              fontWeight: "500"
+            }}>
+              🧪 Dry run mode (simulate without making changes)
+            </label>
+          </div>
+
+          <button 
+            disabled={loading} 
+            type="submit"
+            style={{
+              padding: "1rem 2rem",
+              background: loading ? "#9ca3af" : "linear-gradient(135deg, #8B0000 0%, #000000 100%)",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              fontSize: "1.1rem",
+              fontWeight: "600",
+              cursor: loading ? "not-allowed" : "pointer",
+              transition: "all 0.2s ease",
+              boxShadow: loading ? "none" : "0 4px 12px rgba(139, 0, 0, 0.4)",
+              transform: loading ? "none" : "translateY(0)",
+              marginTop: "0.5rem"
+            }}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 6px 16px rgba(139, 0, 0, 0.5)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!loading) {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 12px rgba(139, 0, 0, 0.4)";
+              }
+            }}
+          >
+            {loading ? "⏳ Working..." : dryRun ? "🧪 Simulate" : "🚀 Re-invite"}
+          </button>
+        </form>
+
+        {result && (
+          <section style={{ marginTop: "2.5rem" }}>
+            <h2 style={{ 
+              fontSize: "1.5rem", 
+              fontWeight: "600", 
+              color: "#1a1a1a", 
+              marginBottom: "1rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem"
+            }}>
+              {result.ok ? "✅ Result" : "❌ Error"}
+            </h2>
+            {!result.ok && (
+              <div style={{ 
+                background: "#fef2f2", 
+                border: "1px solid #fecaca",
+                borderRadius: "8px",
+                padding: "1rem",
+                color: "#dc2626"
+              }}>
+                <pre style={{ 
+                  whiteSpace: "pre-wrap", 
+                  margin: "0",
+                  fontFamily: "inherit"
+                }}>
+                  {result.error}
+                </pre>
+              </div>
+            )}
+            {result.ok && (
+              <div style={{ 
+                background: "#f0f9ff", 
+                border: "1px solid #bae6fd",
+                borderRadius: "8px",
+                padding: "1.5rem",
+                overflow: "hidden"
+              }}>
+                <pre style={{ 
+                  background: "white",
+                  padding: "1rem",
+                  borderRadius: "6px",
+                  overflowX: "auto",
+                  fontSize: "0.875rem",
+                  lineHeight: "1.5",
+                  color: "#374151",
+                  border: "1px solid #e5e7eb",
+                  margin: "0"
+                }}>
+                  {JSON.stringify(result, null, 2)}
+                </pre>
+              </div>
+            )}
+          </section>
+        )}
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      
+      <footer style={{
+        textAlign: "center",
+        marginTop: "2rem",
+        padding: "1rem",
+        color: "rgba(255, 255, 255, 0.8)",
+        fontSize: "0.9rem"
+      }}>
+        <p style={{ margin: "0" }}>
+          Developed by <strong style={{ color: "white" }}>Prof. Yahya Gilany</strong>
+        </p>
       </footer>
     </div>
   );
