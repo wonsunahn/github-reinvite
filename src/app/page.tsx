@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ORGANIZATIONS, type OrganizationKey } from "./config/organizations";
 
 interface Input {
   owner: string;
@@ -33,16 +34,32 @@ type Result = {
 };
 
 export default function Page() {
-  const [owner, setOwner] = useState(process.env.NEXT_PUBLIC_DEFAULT_GITHUB_OWNER || "");
-  const [repo, setRepo] = useState("");
+  const [organization, setOrganization] = useState<OrganizationKey>("IT3049C-Fall25");
+  const [assignment, setAssignment] = useState<string>("JS-Exercises");
   const [username, setUsername] = useState("");
   const [permission, setPermission] = useState<"pull"|"triage"|"push"|"maintain"|"admin">("push");
   const [dryRun, setDryRun] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
 
+  // Calculate repo name based on assignment and username
+  const repoName = username ? `${ORGANIZATIONS[organization].assignments[assignment as keyof typeof ORGANIZATIONS[typeof organization]["assignments"]]}-${username}` : "";
+  const owner = ORGANIZATIONS[organization].owner;
+
+  // Handle organization change - reset assignment to first available
+  const handleOrganizationChange = (newOrg: OrganizationKey) => {
+    setOrganization(newOrg);
+    const firstAssignment = Object.keys(ORGANIZATIONS[newOrg].assignments)[0];
+    setAssignment(firstAssignment);
+  };
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!username) {
+      setResult({ ok: false, error: "Username is required" });
+      return;
+    }
+    
     setLoading(true);
     setResult(null);
 
@@ -50,7 +67,7 @@ export default function Page() {
       const res = await fetch("/api/reinvite", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ owner, repo, username, permission, dryRun }),
+        body: JSON.stringify({ owner, repo: repoName, username, permission, dryRun }),
       });
       const json = await res.json();
       setResult(json);
@@ -109,24 +126,28 @@ export default function Page() {
               textTransform: "uppercase",
               letterSpacing: "0.05em"
             }}>
-              Owner / Organization
+              Organization
             </label>
-            <input 
-              value={owner} 
-              onChange={e => setOwner(e.target.value)} 
-              placeholder="e.g. uc-itsc" 
-              required 
+            <select 
+              value={organization} 
+              onChange={e => handleOrganizationChange(e.target.value as OrganizationKey)}
               style={{
                 padding: "0.875rem 1rem",
                 border: "2px solid #e5e7eb",
                 borderRadius: "8px",
                 fontSize: "1rem",
                 transition: "all 0.2s ease",
-                outline: "none"
+                outline: "none",
+                background: "white",
+                cursor: "pointer"
               }}
               onFocus={(e) => e.target.style.borderColor = "#8B0000"}
               onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
-            />
+            >
+              {Object.entries(ORGANIZATIONS).map(([key, org]) => (
+                <option key={key} value={key}>🏫 {org.name}</option>
+              ))}
+            </select>
           </div>
 
           <div style={{ display: "grid", gap: "0.5rem" }}>
@@ -137,24 +158,58 @@ export default function Page() {
               textTransform: "uppercase",
               letterSpacing: "0.05em"
             }}>
-              Repository
+              Assignment
             </label>
-            <input 
-              value={repo} 
-              onChange={e => setRepo(e.target.value)} 
-              placeholder="e.g. webdev-fall25-john-doe" 
-              required 
+            <select 
+              value={assignment} 
+              onChange={e => setAssignment(e.target.value)}
               style={{
                 padding: "0.875rem 1rem",
                 border: "2px solid #e5e7eb",
                 borderRadius: "8px",
                 fontSize: "1rem",
                 transition: "all 0.2s ease",
-                outline: "none"
+                outline: "none",
+                background: "white",
+                cursor: "pointer"
               }}
               onFocus={(e) => e.target.style.borderColor = "#8B0000"}
               onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
-            />
+            >
+              {Object.entries(ORGANIZATIONS[organization].assignments).map(([key]) => (
+                <option key={key} value={key}>📝 {key}</option>
+              ))}
+            </select>
+          </div>
+
+          <div style={{ 
+            display: "grid", 
+            gap: "0.5rem",
+            padding: "1rem",
+            background: "#f8fafc",
+            borderRadius: "8px",
+            border: "1px solid #e2e8f0"
+          }}>
+            <label style={{ 
+              fontSize: "0.875rem", 
+              fontWeight: "600", 
+              color: "#374151",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em"
+            }}>
+              Generated Repository Name
+            </label>
+            <div style={{
+              padding: "0.875rem 1rem",
+              background: "white",
+              border: "2px solid #e5e7eb",
+              borderRadius: "8px",
+              fontSize: "1rem",
+              color: repoName ? "#374151" : "#9ca3af",
+              fontFamily: "monospace"
+            }}>
+              {repoName || "Enter username to see generated repo name"}
+            </div>
           </div>
 
           <div style={{ display: "grid", gap: "0.5rem" }}>
@@ -344,10 +399,21 @@ export default function Page() {
         marginTop: "2rem",
         padding: "1rem",
         color: "rgba(255, 255, 255, 0.8)",
-        fontSize: "0.9rem"
+        fontSize: "0.9rem",
+        lineHeight: "1.6"
       }}>
-        <p style={{ margin: "0" }}>
-          Developed by <strong style={{ color: "white" }}>Prof. Yahya Gilany</strong>
+        <p style={{ margin: "0", display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: "0.2em" }}>
+          <a href="https://github-reinvite.fly.io" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>GitHub Re-invite</a> © 2025 by <a href="https://yahyagilany.io" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>Yahya Gilany</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>CC BY-NC-SA 4.0</a>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.2em" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" style={{ maxWidth: "1em", maxHeight: "1em", display: "inline-block" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" style={{ maxWidth: "1em", maxHeight: "1em", display: "inline-block" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" style={{ maxWidth: "1em", maxHeight: "1em", display: "inline-block" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" style={{ maxWidth: "1em", maxHeight: "1em", display: "inline-block" }} />
+          </span>
         </p>
       </footer>
     </div>
