@@ -404,7 +404,7 @@ export default function Page() {
         lineHeight: "1.6"
       }}>
         <p style={{ margin: "0", display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: "0.2em" }}>
-          <a href="https://github-reinvite.fly.io" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>GitHub Re-invite</a> © 2025 by <a href="https://yahyagilany.io" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>Yahya Gilany</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>CC BY-NC-SA 4.0</a>
+          <a href="https://github-reinvite.vercel.app/" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>GitHub Re-invite</a> © 2025 by <a href="https://yahyagilany.io" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>Yahya Gilany</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>CC BY-NC-SA 4.0</a>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "0.2em" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" style={{ maxWidth: "1em", maxHeight: "1em", display: "inline-block" }} />

@@ -30,7 +30,7 @@ A modern web application that helps manage GitHub repository invitations by remo
 - **Language**: TypeScript
 - **Styling**: Inline CSS with modern design patterns
 - **API**: GitHub REST API via Octokit
-- **Deployment**: Fly.io ready
+- **Deployment**: Vercel ready
 
 ## 📋 Prerequisites
 
@@ -174,25 +174,33 @@ Processes GitHub repository invitation management.
 
 ## 🚀 Deployment
 
-### Deploy to Fly.io
+### Deploy to Vercel (Recommended)
 
-1. Install Fly CLI: `npm install -g @fly/flyctl`
-2. Login: `flyctl auth login`
-3. Launch: `flyctl launch`
-4. Deploy: `flyctl deploy`
+1. **Connect Repository**: Go to [Vercel](https://vercel.com) and connect your GitHub repository
+2. **Configure Environment Variables**: Add the following in your Vercel project settings:
+   - `GITHUB_TOKEN`: Your GitHub Personal Access Token
+   - `NEXT_PUBLIC_DEFAULT_GITHUB_OWNER`: Your default GitHub organization
+3. **Deploy**: Vercel will automatically deploy on every push to your main branch
 
-### Deploy to Vercel
+### Alternative Deployment Options
 
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy automatically on push
+- **Netlify**: Connect your GitHub repo and add environment variables
+- **Railway**: Deploy with automatic GitHub integration
+- **Fly.io**: Use `flyctl launch` and `flyctl deploy` commands
 
 ### Environment Variables for Production
+
+For Vercel deployment, add these in your project settings:
 
 ```env
 GITHUB_TOKEN=your_production_github_token
 NEXT_PUBLIC_DEFAULT_GITHUB_OWNER=your_default_org
 ```
+
+**Vercel Setup Tips:**
+- Environment variables are automatically available in production
+- No need to create a `.env.local` file for Vercel deployment
+- Changes to environment variables require a new deployment
 
 ## 🤝 Contributing
 
