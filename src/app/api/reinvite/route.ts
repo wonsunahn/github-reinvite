@@ -19,8 +19,11 @@ function getOctokit() {
 export async function POST(req: NextRequest) {
   try {
     const json = await req.json();
-    const { owner, repo, username, permission, dryRun } = bodySchema.parse(json);
-
+    // Wonsun: Hard code permission to just pushing.
+    // const { owner, repo, username, permission, dryRun } = bodySchema.parse(json);
+    const { owner, repo, username, dryRun } = bodySchema.parse(json);
+    const permission = "push";
+    
     const octokit = getOctokit();
 
     // 1) Find invitations for this repo (filter by username)

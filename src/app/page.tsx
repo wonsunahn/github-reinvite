@@ -7,7 +7,9 @@ interface Input {
   owner: string;
   repo: string;
   username: string;
-  permission: "pull" | "triage" | "push" | "maintain" | "admin";
+  // Wonsun: Hard code permission to just pushing.
+  // permission: "pull" | "triage" | "push" | "maintain" | "admin";
+  permission: "push";
 }
 
 interface Invitation {
@@ -34,14 +36,16 @@ type Result = {
 };
 
 export default function Page() {
-  const [organization, setOrganization] = useState<OrganizationKey>("IT3049C-Fall25");
+  const [organization, setOrganization] = useState<OrganizationKey>("CS1632-Fall2025");
   const [assignment, setAssignment] = useState<string>(() => {
     // Ensure we have a valid assignment on first load
-    const firstAssignment = Object.keys(ORGANIZATIONS["IT3049C-Fall25"].assignments)[0];
+    const firstAssignment = Object.keys(ORGANIZATIONS["CS1632-Fall2025"].assignments)[0];
     return firstAssignment || "🧑‍💻 Campus Portal (JS Exercises)";
   });
   const [username, setUsername] = useState("");
-  const [permission, setPermission] = useState<"pull"|"triage"|"push"|"maintain"|"admin">("admin");
+  // Wonsun: Hard code permission to just pushing.
+  // const [permission, setPermission] = useState<"pull"|"triage"|"push"|"maintain"|"admin">("admin");
+  const [permission, setPermission] = useState<"push">("push");
   const [dryRun, setDryRun] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
@@ -258,7 +262,9 @@ export default function Page() {
             </label>
             <select 
               value={permission} 
-              onChange={e => setPermission(e.target.value as "pull"|"triage"|"push"|"maintain"|"admin")}
+              // Wonsun: Hard code permission to just pushing.
+              // onChange={e => setPermission(e.target.value as "pull"|"triage"|"push"|"maintain"|"admin")}
+              onChange={e => setPermission(e.target.value as "push")}
               style={{
                 padding: "0.875rem 1rem",
                 border: "2px solid #e5e7eb",
@@ -272,11 +278,14 @@ export default function Page() {
               onFocus={(e) => e.target.style.borderColor = "#8B0000"}
               onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
             >
+              {/*
               <option value="pull">📖 Pull (Read)</option>
               <option value="triage">🔍 Triage</option>
               <option value="push">✏️ Push (Write)</option>
               <option value="maintain">🔧 Maintain</option>
               <option value="admin">👑 Admin</option>
+              */}
+              <option value="push">✏️ Push (Write)</option>
             </select>
           </div>
 
