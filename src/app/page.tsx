@@ -35,7 +35,11 @@ type Result = {
 
 export default function Page() {
   const [organization, setOrganization] = useState<OrganizationKey>("IT3049C-Fall25");
-  const [assignment, setAssignment] = useState<string>("JS-Exercises");
+  const [assignment, setAssignment] = useState<string>(() => {
+    // Ensure we have a valid assignment on first load
+    const firstAssignment = Object.keys(ORGANIZATIONS["IT3049C-Fall25"].assignments)[0];
+    return firstAssignment || "🧑‍💻 Campus Portal (JS Exercises)";
+  });
   const [username, setUsername] = useState("");
   const [permission, setPermission] = useState<"pull"|"triage"|"push"|"maintain"|"admin">("admin");
   const [dryRun, setDryRun] = useState(false);
@@ -43,7 +47,8 @@ export default function Page() {
   const [result, setResult] = useState<Result | null>(null);
 
   // Calculate repo name based on assignment and username
-  const repoName = username ? `${ORGANIZATIONS[organization].assignments[assignment as keyof typeof ORGANIZATIONS[typeof organization]["assignments"]]}-${username}` : "";
+  const assignmentPrefix = ORGANIZATIONS[organization].assignments[assignment as keyof typeof ORGANIZATIONS[typeof organization]["assignments"]];
+  const repoName = username && assignmentPrefix ? `${assignmentPrefix}-${username}` : "";
   const owner = ORGANIZATIONS[organization].owner;
 
   // Handle organization change - reset assignment to first available
