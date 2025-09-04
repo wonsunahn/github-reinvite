@@ -376,6 +376,45 @@ export default function Page() {
                 padding: "1.5rem",
                 overflow: "hidden"
               }}>
+                {result.invite && (result.invite.status === 201 || result.invite.status === 204) && (
+                  <div style={{
+                    background: "#dcfce7",
+                    border: "1px solid #bbf7d0",
+                    borderRadius: "6px",
+                    padding: "1rem",
+                    marginBottom: "1rem"
+                  }}>
+                    <h3 style={{ 
+                      margin: "0 0 0.5rem 0", 
+                      fontSize: "1rem", 
+                      fontWeight: "600", 
+                      color: "#166534" 
+                    }}>
+                      🎉 Repository Link
+                    </h3>
+                    <a 
+                      href={`https://github.com/${owner}/${repoName}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: "#1d4ed8",
+                        textDecoration: "none",
+                        fontSize: "0.9rem",
+                        fontFamily: "monospace",
+                        background: "white",
+                        padding: "0.5rem 0.75rem",
+                        borderRadius: "4px",
+                        border: "1px solid #d1d5db",
+                        display: "inline-block",
+                        wordBreak: "break-all"
+                      }}
+                      onMouseEnter={(e) => (e.target as HTMLAnchorElement).style.textDecoration = "underline"}
+                      onMouseLeave={(e) => (e.target as HTMLAnchorElement).style.textDecoration = "none"}
+                    >
+                      https://github.com/{owner}/{repoName}
+                    </a>
+                  </div>
+                )}
                 <pre style={{ 
                   background: "white",
                   padding: "1rem",
