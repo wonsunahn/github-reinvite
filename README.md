@@ -1,8 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitHub Re-invite Tool
 
-## Getting Started
+A modern web application that helps manage GitHub repository invitations by removing stale invitations and sending fresh ones. Perfect for educational institutions managing student access to course repositories.
 
-First, run the development server:
+![GitHub Re-invite Tool](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
+![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green?style=for-the-badge)
+
+## 🚀 Features
+
+- **Organization Management**: Support for multiple GitHub organizations with customizable assignment mappings
+- **Automatic Repository Naming**: Generates repository names based on assignment type and username
+- **Dry Run Mode**: Test operations without making actual changes
+- **Modern UI**: Beautiful, responsive interface with burgundy and black theme
+- **Real-time Feedback**: Live preview of generated repository names
+- **Permission Management**: Support for all GitHub permission levels (pull, triage, push, maintain, admin)
+
+## 🎯 Use Cases
+
+- **Educational Institutions**: Manage student access to course repositories
+- **Team Management**: Handle repository invitations for team members
+- **Open Source Projects**: Manage contributor access efficiently
+- **Corporate Training**: Organize repository access for training programs
+
+## 🛠️ Technology Stack
+
+- **Frontend**: Next.js 14 with App Router
+- **Language**: TypeScript
+- **Styling**: Inline CSS with modern design patterns
+- **API**: GitHub REST API via Octokit
+- **Deployment**: Fly.io ready
+
+## 📋 Prerequisites
+
+- Node.js 18+ 
+- npm, yarn, pnpm, or bun
+- GitHub Personal Access Token with repository administration privileges
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/github-reinvite.git
+cd github-reinvite
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+### 3. Environment Setup
+
+Create a `.env.local` file in the root directory:
+
+```env
+# Required: GitHub Personal Access Token
+GITHUB_TOKEN=your_github_personal_access_token_here
+
+# Optional: Default GitHub organization
+NEXT_PUBLIC_DEFAULT_GITHUB_OWNER=your_default_org
+```
+
+### 4. Configure Organizations
+
+Edit `src/app/config/organizations.ts` to customize your organizations and assignments:
+
+```typescript
+export const ORGANIZATIONS = {
+  "YOUR-ORG-Fall25": {
+    name: "Your Organization Fall25",
+    owner: "your-github-org", // GitHub organization/owner name
+    assignments: {
+      "Assignment-1": "assignment-1-prefix-",
+      "Assignment-2": "assignment-2-prefix-",
+      // Add more assignments as needed
+    }
+  }
+} as const;
+```
+
+### 5. Run the Development Server
 
 ```bash
 npm run dev
@@ -10,27 +93,163 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### GitHub Token Setup
 
-## Learn More
+1. Go to GitHub Settings → Developer settings → Personal access tokens
+2. Generate a new token with the following scopes:
+   - `repo` (Full control of private repositories)
+   - `admin:org` (Full control of orgs and teams)
+3. Copy the token and add it to your `.env.local` file
 
-To learn more about Next.js, take a look at the following resources:
+### Organization Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The application supports multiple organizations with different assignment mappings:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Organization Name**: Display name shown in the UI
+- **Owner**: Actual GitHub organization/username
+- **Assignments**: Key-value pairs mapping assignment names to repository prefixes
 
-## Deploy on Vercel
+## 📖 How to Use
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Select Organization**: Choose from available organizations
+2. **Pick Assignment**: Select the assignment type
+3. **Enter Username**: Provide the GitHub username
+4. **Choose Permission**: Select the appropriate permission level
+5. **Test (Optional)**: Enable dry run mode to simulate the operation
+6. **Execute**: Click "Re-invite" to process the invitation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🏗️ Project Structure
+
+```
+src/
+├── app/
+│   ├── api/
+│   │   └── reinvite/
+│   │       └── route.ts          # API endpoint for GitHub operations
+│   ├── config/
+│   │   └── organizations.ts      # Organization and assignment configuration
+│   ├── globals.css               # Global styles
+│   ├── layout.tsx                # Root layout component
+│   └── page.tsx                  # Main application component
+├── public/                       # Static assets
+└── ...                          # Configuration files
+```
+
+## 🔌 API Endpoints
+
+### POST `/api/reinvite`
+
+Processes GitHub repository invitation management.
+
+**Request Body:**
+```json
+{
+  "owner": "github-org-name",
+  "repo": "repository-name",
+  "username": "github-username",
+  "permission": "admin|maintain|push|triage|pull",
+  "dryRun": false
+}
+```
+
+**Response:**
+```json
+{
+  "ok": true,
+  "dryRun": false,
+  "input": { /* request data */ },
+  "foundInvitations": [ /* existing invitations */ ],
+  "deletedInvitations": [ /* deleted invitations */ ],
+  "invite": { /* invitation result */ }
+}
+```
+
+## 🚀 Deployment
+
+### Deploy to Fly.io
+
+1. Install Fly CLI: `npm install -g @fly/flyctl`
+2. Login: `flyctl auth login`
+3. Launch: `flyctl launch`
+4. Deploy: `flyctl deploy`
+
+### Deploy to Vercel
+
+1. Connect your GitHub repository to Vercel
+2. Add environment variables in Vercel dashboard
+3. Deploy automatically on push
+
+### Environment Variables for Production
+
+```env
+GITHUB_TOKEN=your_production_github_token
+NEXT_PUBLIC_DEFAULT_GITHUB_OWNER=your_default_org
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow TypeScript best practices
+- Maintain consistent code formatting
+- Add appropriate error handling
+- Update documentation for new features
+- Test thoroughly before submitting
+
+## 📝 License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+[![CC BY-NC-SA 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+**You are free to:**
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material
+
+**Under the following terms:**
+- Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made
+- NonCommercial — You may not use the material for commercial purposes
+- ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license
+
+## 👨‍💻 Author
+
+**Yahya Gilany**
+- Website: [yahyagilany.io](https://yahyagilany.io)
+- GitHub: [@ygilany](https://github.com/ygilany)
+
+## ☕ Support
+
+If you find this project helpful, consider supporting its development:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/ygilany)
+
+## 🙏 Acknowledgments
+
+- GitHub for providing the excellent REST API
+- Next.js team for the amazing framework
+- Creative Commons for the licensing framework
+- All contributors and users who help improve this tool
+
+## 📞 Support & Questions
+
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/your-username/github-reinvite/issues)
+- 💡 **Feature Requests**: [Start a discussion](https://github.com/your-username/github-reinvite/discussions)
+- 📧 **Contact**: [yahyagilany.io](https://yahyagilany.io)
+
+---
+
+**Made with ❤️ for the developer community**
