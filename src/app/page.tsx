@@ -83,7 +83,7 @@ export default function Page() {
     <div style={{ 
       minHeight: "100vh", 
       background: "linear-gradient(135deg, #8B0000 0%, #000000 100%)",
-      padding: "2rem 1rem"
+      padding: "0.75rem"
     }}>
       <main style={{ 
         maxWidth: 680, 
@@ -91,10 +91,10 @@ export default function Page() {
         background: "white",
         borderRadius: "16px",
         boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-        padding: "3rem",
+        padding: "1rem",
         fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       }}>
-        <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "1rem" }}>
           <h1 style={{ 
             fontSize: "2.5rem", 
             fontWeight: "700", 
@@ -117,7 +117,7 @@ export default function Page() {
           </p>
         </div>
 
-        <form onSubmit={onSubmit} style={{ display: "grid", gap: "1.5rem" }}>
+        <form onSubmit={onSubmit} style={{ display: "grid", gap: "0.75rem" }}>
           <div style={{ display: "grid", gap: "0.5rem" }}>
             <label style={{ 
               fontSize: "0.875rem", 
@@ -339,7 +339,7 @@ export default function Page() {
         </form>
 
         {result && (
-          <section style={{ marginTop: "2.5rem" }}>
+          <section style={{ marginTop: "1rem" }}>
             <h2 style={{ 
               fontSize: "1.5rem", 
               fontWeight: "600", 
@@ -397,11 +397,11 @@ export default function Page() {
       
       <footer style={{
         textAlign: "center",
-        marginTop: "2rem",
-        padding: "1rem",
+        marginTop: "1rem",
+        padding: "0.5rem",
         color: "rgba(255, 255, 255, 0.8)",
-        fontSize: "0.9rem",
-        lineHeight: "1.6"
+        fontSize: "0.85rem",
+        lineHeight: "1.5"
       }}>
         <p style={{ margin: "0 0 0.5rem 0", display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: "0.2em" }}>
           <a href="https://github-reinvite.vercel.app/" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>GitHub Re-invite</a> © 2025 by <a href="https://yahyagilany.io" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>Yahya Gilany</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style={{ color: "rgba(255, 255, 255, 0.9)", textDecoration: "none" }}>CC BY-NC-SA 4.0</a>
@@ -422,7 +422,7 @@ export default function Page() {
             style={{ 
               color: "rgba(255, 255, 255, 0.9)", 
               textDecoration: "none",
-              fontSize: "0.85rem",
+              fontSize: "0.8rem",
               display: "flex",
               alignItems: "center",
               gap: "0.3em"
@@ -435,7 +435,7 @@ export default function Page() {
             style={{ 
               color: "rgba(255, 255, 255, 0.9)", 
               textDecoration: "none",
-              fontSize: "0.85rem",
+              fontSize: "0.8rem",
               display: "flex",
               alignItems: "center",
               gap: "0.3em"
@@ -448,7 +448,7 @@ export default function Page() {
             style={{ 
               color: "rgba(255, 255, 255, 0.9)", 
               textDecoration: "none",
-              fontSize: "0.85rem",
+              fontSize: "0.8rem",
               display: "flex",
               alignItems: "center",
               gap: "0.3em"
