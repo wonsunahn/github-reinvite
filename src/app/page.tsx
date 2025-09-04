@@ -37,7 +37,7 @@ export default function Page() {
   const [organization, setOrganization] = useState<OrganizationKey>("IT3049C-Fall25");
   const [assignment, setAssignment] = useState<string>("JS-Exercises");
   const [username, setUsername] = useState("");
-  const [permission, setPermission] = useState<"pull"|"triage"|"push"|"maintain"|"admin">("push");
+  const [permission, setPermission] = useState<"pull"|"triage"|"push"|"maintain"|"admin">("admin");
   const [dryRun, setDryRun] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
