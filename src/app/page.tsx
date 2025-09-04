@@ -182,6 +182,35 @@ export default function Page() {
             </select>
           </div>
 
+
+          <div style={{ display: "grid", gap: "0.5rem" }}>
+            <label style={{ 
+              fontSize: "0.875rem", 
+              fontWeight: "600", 
+              color: "#374151",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em"
+            }}>
+              Username
+            </label>
+            <input 
+              value={username} 
+              onChange={e => setUsername(e.target.value)} 
+              placeholder="e.g. octocat" 
+              required 
+              style={{
+                padding: "0.875rem 1rem",
+                border: "2px solid #e5e7eb",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                transition: "all 0.2s ease",
+                outline: "none"
+              }}
+              onFocus={(e) => e.target.style.borderColor = "#8B0000"}
+              onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
+            />
+          </div>
+
           <div style={{ 
             display: "grid", 
             gap: "0.5rem",
@@ -210,34 +239,6 @@ export default function Page() {
             }}>
               {repoName || "Enter username to see generated repo name"}
             </div>
-          </div>
-
-          <div style={{ display: "grid", gap: "0.5rem" }}>
-            <label style={{ 
-              fontSize: "0.875rem", 
-              fontWeight: "600", 
-              color: "#374151",
-              textTransform: "uppercase",
-              letterSpacing: "0.05em"
-            }}>
-              Username
-            </label>
-            <input 
-              value={username} 
-              onChange={e => setUsername(e.target.value)} 
-              placeholder="e.g. octocat" 
-              required 
-              style={{
-                padding: "0.875rem 1rem",
-                border: "2px solid #e5e7eb",
-                borderRadius: "8px",
-                fontSize: "1rem",
-                transition: "all 0.2s ease",
-                outline: "none"
-              }}
-              onFocus={(e) => e.target.style.borderColor = "#8B0000"}
-              onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
-            />
           </div>
 
           <div style={{ display: "grid", gap: "0.5rem" }}>
