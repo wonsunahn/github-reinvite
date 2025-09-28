@@ -8,7 +8,7 @@ export const ORGANIZATIONS = {
       "Exercise 1: Test Plans": "exercise-1-test-plans",
       "Exercise 2: Unit Testing": "exercise-2-unit-testing",
       "Exercise 3: Selenium Testing": "exercise-3-selenium-testing",
-      "Supplementary Exercise 1: Cucumber Testing", "supplementary-exercise-1-cucumber-testing",
+      "Supplementary Exercise 1: Cucumber Testing": "supplementary-exercise-1-cucumber-testing",
       "Deliverable 1: Test Plans": "deliverable-1-test-plans",
       "Deliverable 2: Unit Testing": "deliverable-2-unit-testing",
       "Deliverable 3: Selenium Testing": "deliverable-3-selenium-testing",
