@@ -36,10 +36,10 @@ type Result = {
 };
 
 export default function Page() {
-  const [organization, setOrganization] = useState<OrganizationKey>("CS1632-Fall2025");
+  const [organization, setOrganization] = useState<OrganizationKey>("CS1632-Spring2026");
   const [assignment, setAssignment] = useState<string>(() => {
     // Ensure we have a valid assignment on first load
-    const firstAssignment = Object.keys(ORGANIZATIONS["CS1632-Fall2025"].assignments)[0];
+    const firstAssignment = Object.keys(ORGANIZATIONS["CS1632-Spring2026"].assignments)[0];
     return firstAssignment || "🧑‍💻 Campus Portal (JS Exercises)";
   });
   const [username, setUsername] = useState("");
