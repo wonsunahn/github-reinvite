@@ -5,6 +5,8 @@ export const ORGANIZATIONS = {
     owner: "CS1632-Spring2026", // GitHub organization/owner name
     assignments: {
       "Exercise 0: Java Assessment": "exercise-0-java-assessment",
+      "Exercise 1: Test Plans": "exercise-1-test-plans",
+      "Deliverable 1: Test Plans": "deliverable-1-test-plans",
     }
   }
 } as const;
