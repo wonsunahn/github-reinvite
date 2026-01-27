@@ -7,6 +7,7 @@ export const ORGANIZATIONS = {
       "Exercise 0: Java Assessment": "exercise-0-java-assessment",
       "Exercise 1: Test Plans": "exercise-1-test-plans",
       "Deliverable 1: Test Plans": "deliverable-1-test-plans",
+      "Exercise 2: Unit Testing": "exercise-2-unit-testing",
     }
   }
 } as const;
