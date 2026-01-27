@@ -8,6 +8,7 @@ export const ORGANIZATIONS = {
       "Exercise 1: Test Plans": "exercise-1-test-plans",
       "Deliverable 1: Test Plans": "deliverable-1-test-plans",
       "Exercise 2: Unit Testing": "exercise-2-unit-testing",
+      "Deliverable 2: Unit Testing": "deliverable-2-unit-testing",
     }
   }
 } as const;
