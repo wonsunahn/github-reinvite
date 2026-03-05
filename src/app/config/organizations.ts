@@ -15,6 +15,13 @@ export const ORGANIZATIONS = {
       "Deliverable 4: Performance Testing": "deliverable-4-performance-testing",
       "Supplementary Exercise 1: Cucumber Testing": "supplementary-exercise-1-cucumber-testing"
     }
+  },
+  "CS2410-Spring2026": {
+    name: "CS2410 (Spring2026)",
+    owner: "CS2410-Spring2026", // GitHub organization/owner name
+    assignments: {
+      "CPU Simulator": "cpu-simulator"
+    }
   }
 } as const;
 
