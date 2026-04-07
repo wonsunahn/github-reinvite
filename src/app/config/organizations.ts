@@ -11,9 +11,14 @@ export const ORGANIZATIONS = {
       "Deliverable 2: Unit Testing": "deliverable-2-unit-testing",
       "Exercise 3: Playwright Testing": "exercise-3-playwright-testing",
       "Deliverable 3: Playwright Testing": "deliverable-3-playwright-testing",
-      "Exercise 4: Performance Testing": "exercise-4-performance-testing",
+      "Exercise 4: Performance Testing": "exercise-4-performance-testing", 
       "Deliverable 4: Performance Testing": "deliverable-4-performance-testing",
+      "Exercise 5: Static Testing": "exercise-5-static-testing",
+      "Exercise 5: Extra Credit":, "exercise-5-extra-credit",
+      "Deliverable 5: Static and Dynamic Testing": "deliverable-5-static-and-dynamic-testing",
       "Supplementary Exercise 1: Cucumber Testing": "supplementary-exercise-1-cucumber-testing",
+      "Supplementary Exercise 2: Stochastic Testing": "supplementary-exercise-2-stochastic-testing",
+      "Supplementary Exercise 3: Sanitizers": "supplementary-exercise-3-sanitizers",
       "Supplementary Exercise 4: CI/CD Pipelines": "supplementary-exercise-4-ci-cd-pipelines"
     }
   },
