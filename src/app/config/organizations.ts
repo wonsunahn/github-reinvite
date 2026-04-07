@@ -14,7 +14,7 @@ export const ORGANIZATIONS = {
       "Exercise 4: Performance Testing": "exercise-4-performance-testing", 
       "Deliverable 4: Performance Testing": "deliverable-4-performance-testing",
       "Exercise 5: Static Testing": "exercise-5-static-testing",
-      "Exercise 5: Extra Credit":, "exercise-5-extra-credit",
+      "Exercise 5: Extra Credit": "exercise-5-extra-credit",
       "Deliverable 5: Static and Dynamic Testing": "deliverable-5-static-and-dynamic-testing",
       "Supplementary Exercise 1: Cucumber Testing": "supplementary-exercise-1-cucumber-testing",
       "Supplementary Exercise 2: Stochastic Testing": "supplementary-exercise-2-stochastic-testing",
