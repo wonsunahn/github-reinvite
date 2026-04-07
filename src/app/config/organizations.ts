@@ -13,7 +13,8 @@ export const ORGANIZATIONS = {
       "Deliverable 3: Playwright Testing": "deliverable-3-playwright-testing",
       "Exercise 4: Performance Testing": "exercise-4-performance-testing",
       "Deliverable 4: Performance Testing": "deliverable-4-performance-testing",
-      "Supplementary Exercise 1: Cucumber Testing": "supplementary-exercise-1-cucumber-testing"
+      "Supplementary Exercise 1: Cucumber Testing": "supplementary-exercise-1-cucumber-testing",
+      "Supplementary Exercise 4: CI/CD Pipelines": "supplementary-exercise-4-ci-cd-pipelines"
     }
   },
   "CS2410-Spring2026": {
